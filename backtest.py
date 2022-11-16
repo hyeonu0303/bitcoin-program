@@ -7,10 +7,10 @@ df = pyupbit.get_ohlcv("KRW-BTC", count=7)
 
 # 변동성 돌파 기준 범위 계산, (고가 - 저가) * k값
 df['range'] = (df['high'] - df['low']) * 0.5
-# range 컬럼을 한칸씩 밑으로 내림(.shift(1))
+# target(매수가) range 컬럼을 한칸씩 밑으로 내림(.shift(1))
 df['target'] = df['open'] + df['range'].shift(1)
 
-# np.where(조건문, 참일때 값, 거짓일때 값)
+# ror(수익률) np.where(조건문, 참일때 값, 거짓일때 값)
 df['ror'] = np.where(df['high'] > df['target'],
                       df['close'] / df['target'],
                       1)
